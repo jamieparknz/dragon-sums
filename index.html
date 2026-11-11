@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dragon Sums">
+<meta name="theme-color" content="#1d2b3a">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<title>Dragon Sums: Crystal Isles</title>
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="preload" href="assets/fonts/PixelifySans.ttf" as="font" type="font/ttf" crossorigin>
+<style>#bootErr{position:fixed;left:8px;right:8px;top:calc(8px + env(safe-area-inset-top));z-index:9999;background:#5a0d16;color:#fff;font:14px/1.4 -apple-system,system-ui,sans-serif;padding:12px 14px;border:2px solid #fff;border-radius:10px;white-space:pre-wrap;word-break:break-word;-webkit-user-select:text;user-select:text;display:none}
+#loading{display:flex;flex-direction:column;align-items:center;gap:10px}#loadBar{width:200px;height:10px;border:2px solid #fff8;border-radius:6px;overflow:hidden}#loadBar i{display:block;height:100%;width:3%;background:#7fd0ff;transition:width .2s}</style>
+<script>
+/* v13 boot guard: shows the first error on screen (screenshot it!), WebGL fallback, load progress, watchdog. Classic script so it runs even if modules fail. */
+(function () {
+  var shown = false, B = window.__boot = { want: 0, got: 0 };
+  function panel(msg) { if (shown) return; shown = true; var go = function () { var p = document.getElementById('bootErr') || document.createElement('div'); p.id = 'bootErr'; p.textContent = 'Dragon Sums hit a problem:\n' + msg + '\n\n' + navigator.userAgent + '\n(Screenshot this for Dad. Tap to reload.)'; p.style.display = 'block'; p.onclick = function () { location.reload(); }; document.body.appendChild(p); }; if (document.body) go(); else addEventListener('DOMContentLoaded', go); }
+  B.fail = function (e) { panel(String((e && (e.stack || e.message)) || e).slice(0, 600)); };
+  addEventListener('error', function (e) { if (e.target && e.target !== window && (e.target.src || e.target.href)) { panel('Could not load ' + (e.target.src || e.target.href)); return; } panel((e.message || 'Error') + (e.filename ? '\n' + e.filename.split('/').pop() + ':' + e.lineno + ':' + e.colno : '')); }, true);
+  addEventListener('unhandledrejection', function (e) { var r = e.reason; panel('Promise: ' + String((r && (r.stack || r.message)) || r).slice(0, 600)); });
+  B.step = function () { B.got++; var i = document.querySelector('#loadBar i'); if (i) i.style.width = Math.min(100, 5 + 95 * B.got / Math.max(B.want, 14)) + '%'; };
+  B.done = function () { B.ok = true; var i = document.querySelector('#loadBar i'); if (i) i.style.width = '100%'; };
+  try { var c = document.createElement('canvas'); B.gl = !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { B.gl = false; }
+  addEventListener('DOMContentLoaded', function () {
+    if (!B.gl) { var l = document.getElementById('loading'); l.innerHTML = 'This device or browser has 3D graphics (WebGL) turned off.<br><br>On iPhone: update iOS, close other apps, or try Settings &rsaquo; Safari &rsaquo; Advanced &rsaquo; Feature Flags and turn WebGL back on.'; l.style.maxWidth = '90vw'; l.style.textAlign = 'center'; }
+    if (!HTMLScriptElement.supports || !HTMLScriptElement.supports('importmap')) panel('This browser is too old for Dragon Sums (needs import maps: iOS 16.4+). Please update iOS.');
+    setTimeout(function () { if (!B.ok && B.gl) panel('Still loading after 40 s (' + B.got + '/' + B.want + ' images). Check your connection and tap to retry.'); }, 40000);
+  });
+  /* no pull-to-refresh / rubber band / pinch zoom on iOS (touch-action alone is not enough in Safari) */
+  document.addEventListener('touchmove', function (e) { if (e.touches.length > 1 || !(e.target.closest && e.target.closest('.scroll,#mmPane,#bootErr'))) e.preventDefault(); }, { passive: false });
+  ['gesturestart', 'gesturechange', 'dblclick'].forEach(function (t) { document.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false }); });
+})();
+</script>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="ff.css">
+<link rel="stylesheet" href="game.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js", "three/addons/": "./vendor/jsm/" } }</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="loading" class="panel center"><span>Loading the isles…</span><div id="loadBar"><i></i></div></div>
+
+<!-- HUD -->
+<div id="hud" class="hidden">
+  <div id="hudTop"><div id="hudPortrait" class="ffw"></div>
+    <div id="hudBars" class="ffw"><div id="hearts"></div><div class="hrow"><span>FOCUS</span><div class="fbar"><i id="focusBar"></i></div></div>
+      <div class="hrow small"><span id="gems">💎 0</span><span id="dragonsN">🐉 0</span><span id="carry"></span></div></div>
+    <button id="menuBtn" title="Menu (Esc)">Menu</button></div>
+  <div id="toast"></div>
+  <div id="goal" class="ffw"></div>
+  <div id="joyZone"></div><div id="joy"><div id="knob"></div></div>
+  <div id="pad"><button id="bAtk" aria-label="Attack">⚔</button><button id="bRoll" aria-label="Roll">↻</button><button id="bAct" aria-label="Interact">E</button><button id="bRide" aria-label="Ride dragon">🐉</button></div>
+  <div id="hotbar"><button data-k="KeyJ"><i>⚔</i><b>J</b></button><button data-k="KeyK"><i>↻</i><b>K</b></button><button data-k="KeyE"><i>✋</i><b>E</b></button><button data-k="KeyR"><i>🐉</i><b>R</b></button><button data-k="Escape"><i>☰</i><b>Esc</b></button></div>
+  <div id="keysHelp" class="hidden">WASD move · Shift run · J/Space sword · K roll · E interact · Esc menu</div>
+</div>
+<!-- in-world question bubble (positioned over the monster / egg / dragon) -->
+<div id="qb" class="ffw hidden"><div id="qbTag" class="tag"></div><div id="qbText"></div><div id="qbOpts"></div><div id="qbFb"></div></div>
+<div id="dmgLayer"></div>
+<button id="muteBtn" title="Sound on/off">🔊</button>
+
+<div id="title" class="hidden"><canvas id="tcv"></canvas>
+  <div class="logo"><svg class="emblem" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="eg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8fbff"/><stop offset=".5" stop-color="#7fd0ff"/><stop offset="1" stop-color="#3a5bd9"/></linearGradient></defs>
+    <path d="M32 2 L46 26 L32 62 L18 26Z" fill="url(#eg)" stroke="#fff" stroke-width="1.5"/><path d="M32 2 L36 26 L32 62 L27 26Z" fill="#fff" opacity=".55"/>
+    <path d="M18 26 C8 18 4 10 2 4 C10 10 14 12 20 14 C14 8 13 5 13 2 C19 8 22 12 24 18Z" fill="#ffd866" stroke="#7a4a10" stroke-width="1"/><path d="M46 26 C56 18 60 10 62 4 C54 10 50 12 44 14 C50 8 51 5 51 2 C45 8 42 12 40 18Z" fill="#ffd866" stroke="#7a4a10" stroke-width="1"/></svg>
+    <div class="ltitle">DRAGON SUMS</div><div class="lsub">~ The Crystal Isles ~</div></div>
+  <div id="titleMenu" class="ffw mwin"></div>
+  <div class="copy">Original game &middot; Press Enter</div>
+</div>
+<div id="dialog" class="ffw hidden"><div class="pframe"></div><div class="nameplate"></div><div class="dtext"></div><img class="more hidden" alt=""></div>
+<div id="mainMenu" class="hidden"><div id="mmPane" class="ffw"></div><div class="mmside"><div id="mmCmd" class="ffw mwin"></div>
+  <div class="ffw mminfo"><div>Gems <b id="mmGems">0</b></div><div id="mmLoc"></div></div></div></div>
+<div id="fade"></div>
+
+<script src="clans.js"></script>
+<script src="questions.js"></script>
+<script type="module" src="game.js"></script>
+</body>
+</html>

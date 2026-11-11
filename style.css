@@ -1,0 +1,52 @@
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#1d2b3a;font-family:ui-monospace,"Courier New",monospace;color:#3b2a1e;touch-action:none;user-select:none}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block}
+.hidden{display:none!important}
+.panel{position:fixed;background:#f6e7c8;border:4px solid #3b2a1e;box-shadow:0 0 0 4px #c8a26a,0 10px 30px #0008;border-radius:4px;padding:16px;z-index:10;image-rendering:pixelated}
+.center{left:50%;top:50%;transform:translate(-50%,-50%);max-width:94vw;max-height:94vh;overflow:auto}
+.side{right:10px;top:10px;width:260px;max-height:94vh;overflow:auto}
+h1{margin:0 0 10px;font-size:26px;letter-spacing:1px}h1 small{display:block;font-size:14px;color:#8a5a2b}
+.row{display:flex;gap:16px;flex-wrap:wrap}.col{flex:1;min-width:260px}
+label{display:block;margin:6px 0;font-weight:bold}input,select{display:block;width:100%;font:inherit;font-size:18px;padding:6px;border:3px solid #3b2a1e;background:#fffaf0;border-radius:2px}
+button{font:inherit;font-weight:bold;cursor:pointer;border:3px solid #3b2a1e;background:#ffd866;color:#3b2a1e;padding:6px 10px;border-radius:3px;box-shadow:0 3px 0 #3b2a1e}
+button:active{transform:translateY(2px);box-shadow:0 1px 0 #3b2a1e}
+.big{font-size:20px;width:100%;margin-top:8px;padding:10px}.link{background:none;border:none;box-shadow:none;text-decoration:underline;margin-top:6px}
+.hint{font-size:12px;color:#7a5a3a;margin:2px 0 8px}.err{color:#b91c1c;font-weight:bold;min-height:1em}
+.clans{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.clan{padding:6px 4px;font-size:13px;border:3px solid #3b2a1e;background:#fffaf0;box-shadow:0 3px 0 #3b2a1e;text-align:center}
+.clan i{display:block;height:12px;margin-bottom:4px;border:2px solid #3b2a1e}.clan.sel{background:#ffd866;outline:3px solid #fff}
+.previewCol{text-align:center}#preview{width:288px;height:288px;image-rendering:pixelated;background:radial-gradient(#fff6 0,#0000 70%)}
+#clanInfo{font-size:14px}
+.bigcode{font-size:40px;font-weight:bold;letter-spacing:4px;text-align:center}
+#hostPlayers{list-style:none;padding:0;margin:0}#hostPlayers li{display:flex;gap:4px;align-items:center;margin:3px 0;font-size:13px}#hostPlayers li span{flex:1}#hostPlayers button{font-size:11px;padding:2px 5px}
+#hud .stats{position:fixed;left:10px;top:10px;display:flex;gap:8px;z-index:5}
+#hud .stats>span{background:#f6e7c8;border:3px solid #3b2a1e;padding:4px 8px;font-weight:bold}
+#skinSel select{display:inline;width:auto;font-size:13px;padding:2px}
+#toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#3b2a1ee0;color:#ffe9a8;padding:6px 12px;font-weight:bold;opacity:0;transition:opacity .3s;z-index:6;pointer-events:none}
+#toast.on{opacity:1}
+.emotes{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:5}.emotes button{font-size:20px;padding:2px 6px}
+.phrases{position:fixed;bottom:56px;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:repeat(2,1fr);gap:4px;z-index:6}.phrases button{font-size:13px}
+#joy{position:fixed;left:20px;bottom:70px;width:130px;height:130px;border-radius:50%;background:#fff3;border:3px solid #fff8;z-index:5;touch-action:none}
+#knob{position:absolute;left:40px;top:40px;width:50px;height:50px;border-radius:50%;background:#ffd866;border:3px solid #3b2a1e}
+.actions{position:fixed;right:20px;bottom:80px;display:flex;flex-direction:column;gap:10px;z-index:5}.actions button{font-size:20px;padding:14px}
+#useBtn{background:#a5f3fc;animation:pulse 1s infinite}@keyframes pulse{50%{transform:scale(1.08)}}
+#muteBtn{position:fixed;right:10px;bottom:10px;z-index:20;font-size:18px;padding:4px 8px}
+.tag{display:inline-block;background:#3b2a1e;color:#ffe9a8;padding:2px 8px;font-size:12px;text-transform:uppercase}
+.qtext{font-size:40px;font-weight:bold;text-align:center;margin:14px 10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.opts button{font-size:28px;padding:14px 22px}
+.opts button.right{background:#86efac}.opts button.wrong{background:#fca5a5}
+.fb{min-height:1.5em;font-weight:bold;text-align:center;margin-top:8px}
+#qcard{min-width:320px;background:#f6e7c8 linear-gradient(#fff6,#0000)}
+#race{position:fixed;left:10px;top:60px;z-index:5;background:#3b2a1ed0;color:#ffe9a8;padding:8px 12px;font-weight:bold;min-width:180px}
+#raceTimer{font-size:22px}#raceBoard{margin:4px 0;padding-left:20px;font-size:13px}
+#loading{font-size:20px}
+@media (min-width:900px) and (hover:hover){#joy{display:none}}
+.looks{grid-template-columns:repeat(4,1fr);margin-bottom:6px}
+/* v4 polish: question card sits low so the player + dragon stay visible above it; clear look selection; tighter home panel */
+#qcard.center{top:auto;bottom:86px;transform:translateX(-50%);padding-bottom:12px}
+#qcard .qtext{margin:8px 10px}
+.looks button{background:#fff6dc}.looks button.sel{background:#ffd866;outline:3px solid #fff;box-shadow:0 0 0 5px #3b2a1e}
+#home .fb,#home small{display:block}
+/* v13 mobile: dynamic viewport height (iOS toolbar), no callouts/selection, safe areas */
+html,body{height:100dvh;-webkit-touch-callout:none;-webkit-user-select:none;overscroll-behavior:none;position:fixed;inset:0;width:100%}
+.center{max-height:94dvh}.side{max-height:94dvh}
+input,textarea{-webkit-user-select:text;user-select:text}
